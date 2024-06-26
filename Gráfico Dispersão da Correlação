@@ -1,0 +1,135 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+#Leitura dos dados da Planilha e movendo para o DataFrame data1
+data1 = pd.read_excel('projeto.xlsx')
+
+
+xdados = data1['compras']
+
+ydados = data1['valor real/dolar']
+
+#metodo=0#linear
+#metodo=1#y=a.e^bx
+#metodo=2#y=a.x^b
+#metodo=3#y=a.b^x
+
+somax = 0.0
+somax1 = 0.0
+somax2 = 0.0
+somax3 = 0.0
+somay = 0.0
+somay1 = 0.0
+somay2 = 0.0
+somay3 = 0.0
+somax_2 = 0.0
+somax_2_1 = 0.0
+somax_2_2 = 0.0
+somax_2_3 = 0.0
+somaxy = 0.0
+somaxy1 = 0.0
+somaxy2 = 0.0
+somaxy3 = 0.0
+n = len(xdados)
+
+
+for i  in range(n):
+    somax = somax + xdados[i]
+    somax2 = somax2 + np.log(xdados[i])
+    
+    somay = somay + ydados[i]
+    somay1 = somay1 + np.log(ydados[i])
+    
+    somax_2 = somax_2 + xdados[i]**2
+    somax_2_2 = somax_2_2 + np.log(xdados[i])**2
+    
+    somaxy = somaxy + xdados[i]*ydados[i]
+    somaxy1 = somaxy1 + xdados[i]*np.log(ydados[i])
+    somaxy2 = somaxy2 + np.log(xdados[i])*np.log(ydados[i])
+    
+somax1=somax
+somax3=somax
+somay2=somay1
+somay3=somay1
+somax_2_1=somax_2
+somax_2_3=somax_2
+somaxy3=somaxy1
+
+b = (somaxy -((somax/n)*somay))/(somax_2 -((somax/n)*somax))    
+a = (somay - somax*b)/(n)
+
+M1 = np.array([[n,somax1],[somax1,somax_2_1]])
+N1 = np.array([somay1,somaxy1])
+meio1 = np.linalg.solve(M1,N1)
+
+M2 = np.array([[n,somax2],[somax2,somax_2_2]])
+N2 = np.array([somay2,somaxy2])
+meio2 = np.linalg.solve(M2,N2)   
+ 
+M3 = np.array([[n,somax3],[somax3,somax_2_3]])
+N3 = np.array([somay3,somaxy3])
+meio3 = np.linalg.solve(M3,N3)
+
+
+#Qualidade da aproximação com r^2
+
+r_2 = 0.0 
+somay_a_b = 0.0 
+somay_2 = 0.0
+somay_a_b1 = 0.0 
+somay_21 = 0.0
+somay_a_b2 = 0.0 
+somay_22 = 0.0
+somay_a_b3 = 0.0 
+somay_23 = 0.0
+a1,b1=meio1
+a2,b2=meio2
+a3,b3=meio3
+
+for ii  in range(n):
+    somay_a_b  = somay_a_b  + (ydados[ii]-a-b*xdados[ii])**2
+    somay_2 = somay_2 + ydados[ii]**2
+    somay_a_b1  = somay_a_b1  + (np.log(ydados[ii])-a1-b1*xdados[ii])**2
+    somay_21 = somay_21 + np.log(ydados[ii])**2
+    somay_a_b2  = somay_a_b2  + (np.log(ydados[ii])-a2-b2*np.log(xdados[ii]))**2
+    somay_22 = somay_22 + np.log(ydados[ii])**2
+    somay_a_b3  = somay_a_b3  + (np.log(ydados[ii])-a1-b1*xdados[ii])**2
+    somay_23 = somay_23 + np.log(ydados[ii])**2
+
+r_2 = 1 -(somay_a_b/(somay_2 -((1/n)*(somay**2))))
+r_21 = 1 -(somay_a_b1/(somay_21 -((1/n)*(somay1**2))))    
+r_22 = 1 -(somay_a_b2/(somay_22 -((1/n)*(somay2**2))))
+r_23 = 1 -(somay_a_b3/(somay_23 -((1/n)*(somay3**2))))
+
+
+
+#Plotar reta e pontos   
+
+
+def f(x):
+    return a+b*x 
+def exp1(x):
+    return np.exp(a1+b1*x)
+def exp2(x):
+    return np.exp(a2+b2*np.log(x))
+def exp3(x):
+    return np.exp(a3)*np.exp(b3)**x
+
+#intervalo para plotar
+x_ab = np.linspace(min(xdados),max(xdados))
+
+plt.plot(x_ab,exp1(x_ab),label='y=a.e^bx')
+#plt.plot(x_ab,f(x_ab),label='y=a + bx')       
+#plt.plot(x_ab,exp2(x_ab),label='y=a.x^b')
+#plt.plot(x_ab,exp3(x_ab),label='y=a.b^x')
+
+# Pontos do Gráfico
+plt.scatter(xdados, ydados, c='k')
+
+plt.title("Gráfico de dispersão")
+plt.xlabel("Pessoas que usam internet e compram online (%)")
+plt.ylabel("Real/Dolar")
+plt.legend()
+plt.show()
