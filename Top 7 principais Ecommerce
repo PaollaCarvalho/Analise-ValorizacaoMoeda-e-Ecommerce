@@ -1,0 +1,23 @@
+import matplotlib.pyplot as plt
+
+# Dados do gráfico
+categories = ['AliExpress','Shein','Magazine Luiza','Olx','Amazon Brasil','Shopee','Mercado Livre']
+values = [73.1,74.9,116.1,119.2,195.7,201.8,363.0]
+
+# Configurações do gráfico
+fig, ax = plt.subplots(figsize=(10, 6))
+bars = ax.bar(categories, values, color='#0A74DA', width=0.6)
+
+# Adicionando valores acima das barras
+for bar in bars:
+    yval = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2.0, yval, f'{yval}', va='bottom', ha='center', fontsize=12, color='black')
+
+# Título e rótulos
+ax.set_title('top 7 principais e-comerce do brasil 2024', fontsize=16, fontweight='bold')
+ax.set_xlabel('E-comerces', fontsize=14)
+ax.set_ylabel('Numero de visitas (em Milhoes)', fontsize=14)
+ax.grid(axis='y', linestyle='--', alpha=0.7)
+
+plt.tight_layout()
+plt.show()
