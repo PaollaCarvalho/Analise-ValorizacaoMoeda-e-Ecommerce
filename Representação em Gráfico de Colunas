@@ -1,0 +1,29 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+#Leitura dos dados da Planilha e movendo para o DataFrame data1
+data1 = pd.read_excel('projeto coluna.xlsx')
+
+
+xdados = data1['compras']
+
+ydados = data1['valor real/dolar']
+
+
+# Dados para o gráfico de colunas
+
+
+# Criar o gráfico de colunas
+plt.figure(figsize=(8, 3))  # Tamanho da figura (opcional)
+
+# Plotar o gráfico de colunas
+plt.bar(ydados, xdados, color='blue',width=0.4)
+
+# Adicionar título e rótulos aos eixos
+plt.title('Dolar por compra anual %')
+plt.xlabel('Valor em real (R$)')
+plt.ylabel('compra anual %')
+
+# Mostrar o gráfico
+plt.show()
