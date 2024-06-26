@@ -1,17 +1,43 @@
 import matplotlib.pyplot as plt
+import pandas as pd
 
-# Dados fictícios do valor de R$ 50 ao longo dos anos devido à inflação
-anos = [2018, 2019, 2020, 2021, 2022, 2023, 2024]
-poder_de_compra = [50, 48.5, 47, 45.5, 44, 42.5, 41]
+# Criando um DataFrame com os dados
+dados = {
+    "Ano": [2018, 2019, 2020, 2021, 2022, 2023, 2024],
+    "Salário Mínimo": [959, 1045, 1169, 1212, 1307, 1320, 1350],
+    "Inflação (%)": [2.95, 5.46, 4.52, 10.71, 7.56, 10.07, 5.00],
+    "Poder de Compra": [100, 94.54, 92.37, 85.29, 82.07, 78.32, 80.32]
+}
 
-# Configurando o gráfico
-plt.figure(figsize=(10, 6))
-plt.plot(anos, poder_de_compra, marker='o', linestyle='-', color='b')
+df = pd.DataFrame(dados)
 
-# Adicionando títulos e rótulos
-plt.title('Poder de Compra do Brasileiro (R$ 50) de 2018 a 2024')
-plt.xlabel('Ano')
-plt.ylabel('Poder de Compra em R$')
+# Definindo o gráfico
+plt.figure(figsize=(12, 10))
+
+# Cores por ano
+cores = {
+    2018: 'blue',
+    2019: 'green',
+    2020: 'red',
+    2021: 'purple',
+    2022: 'orange',
+    2023: 'cyan',
+    2024: 'magenta'
+}
+
+# Plotando os dados
+plt.plot(df['Ano'], df['Poder de Compra'], marker='o', linestyle='-', color='blue')
+
+# Adicionando rótulos de ano aos pontos
+for i, txt in enumerate(df['Salário Mínimo']):
+    plt.annotate(txt, (df['Ano'][i], df['Poder de Compra'][i]), textcoords="offset points", xytext=(0,10), ha='center')
+
+# Títulos e rótulos
+plt.title("Poder de Compra do Brasileiro (2018-2024)")
+plt.xlabel("Ano")
+plt.ylabel("Poder de Compra (%)")
+
+# Grid
 plt.grid(True)
 
 # Mostrando o gráfico
