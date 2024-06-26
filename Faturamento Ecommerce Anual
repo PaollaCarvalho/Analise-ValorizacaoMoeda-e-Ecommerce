@@ -1,0 +1,23 @@
+import matplotlib.pyplot as plt
+
+# Dados do gráfico
+categories = ['2018','2019', '2020', '2021', '2022','2023', '2024/expectativa']
+values = [53.2, 61.9, 87.4, 161, 262 , 186,205.11]
+
+# Configurações do gráfico
+fig, ax = plt.subplots(figsize=(10, 6))
+bars = ax.bar(categories, values, color='#0A74DA', width=0.6)
+
+# Adicionando valores acima das barras
+for bar in bars:
+    yval = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2.0, yval, f'{yval}', va='bottom', ha='center', fontsize=12, color='black')
+
+# Título e rótulos
+ax.set_title('Faturamento do E-commerce no Brasil (2018-2023)', fontsize=16, fontweight='bold')
+ax.set_xlabel('Ano', fontsize=14)
+ax.set_ylabel('Faturamento (em bilhões de R$)', fontsize=14)
+ax.grid(axis='y', linestyle='--', alpha=0.7)
+
+plt.tight_layout()
+plt.show()
