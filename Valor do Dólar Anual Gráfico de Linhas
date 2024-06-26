@@ -1,0 +1,21 @@
+import matplotlib.pyplot as plt
+
+# Dados
+anos = ['2018', '2019', '2020', '2021', '2022', '2023']
+medias = [3.5954, 3.9227, 4.9824, 5.2716, 5.2656, 5.0036]
+
+# Criar o gráfico
+plt.figure(figsize=(10, 6))
+plt.plot(anos, medias, marker='o', linestyle='-', color='b', label='Média por ano')
+
+# Adicionar título e rótulos aos eixos
+plt.title('Média Anual dos Valores (2018-2023)', fontsize=16)
+plt.xlabel('Ano', fontsize=14)
+plt.ylabel('Média', fontsize=14)
+
+# Adicionar grades e legenda
+plt.grid(True)
+plt.legend()
+
+# Mostrar o gráfico
+plt.show()
